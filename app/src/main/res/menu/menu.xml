@@ -2,20 +2,22 @@
     <item
         android:id="@+id/navigation_home"
         android:title="Home"
-        android:icon="@drawable/ic_home" />
+        android:icon="@drawable/ic_home_unselected"
+        />
 
     <item
         android:id="@+id/navigation_search"
         android:title="Search"
-        android:icon="@drawable/ic_search" />
+        android:icon="@drawable/ic_search_unselected"
+        />
 
     <item
         android:id="@+id/navigation_calendar"
         android:title="Calendar"
-        android:icon="@drawable/ic_calendar" />
+        android:icon="@drawable/ic_calendar_unselected" />
 
     <item
         android:id="@+id/navigation_settings"
         android:title="Settings"
-        android:icon="@drawable/ic_settings" />
+        android:icon="@drawable/ic_settings_unselected" />
 </menu>

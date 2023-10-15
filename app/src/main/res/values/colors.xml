@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="app_green">#2C7533</color>
+    <color name="app_blue">#1B6375</color>
+    <color name="menu_green">#6A9697</color>
+    <color name="selected_icon_color">#C4FFC2</color>
+    <color name="unselected_icon_color">#3E454D</color>
+    <color name="plate">#D9D9D9</color>
 </resources>

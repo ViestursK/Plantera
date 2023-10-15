@@ -1,64 +1,80 @@
 package com.firstapp.plantera;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
+
 public class SearchFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView mRecyclerView;
+    private PlantAdapter mAdapter;
+    private ArrayList<PlantItem> mPlantList;
+    private RequestQueue mRequestQueue;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mPlantList = new ArrayList<>();
+        mRequestQueue = Volley.newRequestQueue(requireActivity());
+        parseJSON();
+        return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private void parseJSON() {
+        String url = "https://perenual.com/api/species-list?key=sk-wq5s65181f3ed666f2313";
+        // Handle network request errors
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            try {
+                if (response.has("data")) {
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject plant = jsonArray.getJSONObject(i);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+                        // Check if "default_image" exists and is not null
+                        if (plant.has("default_image") && !plant.isNull("default_image")) {
+                            JSONObject defaultImage = plant.getJSONObject("default_image");
+
+                            // Check if "original_url" exists and is not null
+                            if (defaultImage.has("original_url") && !defaultImage.isNull("original_url")) {
+                                String imageUrl = defaultImage.getString("original_url");
+                                String plantName = plant.optString("common_name", ""); // Use optString to handle null values
+
+                                mPlantList.add(new PlantItem(imageUrl, plantName));
+                            }
+                        }
+                    }
+
+                    mAdapter = new PlantAdapter(requireActivity(), mPlantList);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged(); // Notify the adapter of the data change
+                } else {
+                    // Handle cases where "data" field is missing in the JSON response
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                // Handle JSON parsing errors
+            }
+        }, Throwable::printStackTrace);
+        mRequestQueue.add(request);
     }
 }
