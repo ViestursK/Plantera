@@ -1,5 +1,6 @@
 package com.firstapp.plantera;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements PlantAdapter.OnItemClickListener {
+    public static final String EXTRA_URL = "imageUrl";
+    public static final String EXTRA_PLANT_NAME = "plantName";
+    public static final String EXTRA_PLANT_ID = "scientificName";
+
+    @Override
+    public void onItemClick(int position) {
+        Intent detailIntent = new Intent(getActivity(), DetailsActivity.class);
+        PlantItem clickedItem = mPlantList.get(position);
+
+        detailIntent.putExtra(EXTRA_URL, clickedItem.getImageUrl());
+        detailIntent.putExtra(EXTRA_PLANT_NAME, clickedItem.getPlant());
+        detailIntent.putExtra(EXTRA_PLANT_ID, clickedItem.getPlantId()); // Add the plant ID
+        startActivity(detailIntent);
+    }
+
 
     private RecyclerView mRecyclerView;
     private PlantAdapter mAdapter;
@@ -41,7 +57,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void parseJSON() {
-        String url = "https://perenual.com/api/species-list?key=sk-wq5s65181f3ed666f2313";
+        String url = "https://perenual.com/api/species-list?key=sk-wq5s65181f3ed666f2313&page=3";
         // Handle network request errors
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
@@ -59,14 +75,18 @@ public class SearchFragment extends Fragment {
                                 String imageUrl = defaultImage.getString("original_url");
                                 String plantName = plant.optString("common_name", ""); // Use optString to handle null values
 
-                                mPlantList.add(new PlantItem(imageUrl, plantName));
+                                mPlantList.add(new PlantItem(imageUrl, plantName, plant.getInt("id")));
                             }
                         }
                     }
 
                     mAdapter = new PlantAdapter(requireActivity(), mPlantList);
                     mRecyclerView.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged(); // Notify the adapter of the data change
+                    mAdapter.setOnItemClickListener(SearchFragment.this);
+
+
+
+//                    mAdapter.notifyDataSetChanged(); // Notify the adapter of the data change
                 } else {
                     // Handle cases where "data" field is missing in the JSON response
                 }

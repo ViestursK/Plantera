@@ -3,20 +3,20 @@
     xmlns:tools="http://schemas android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchFragment"
     android:background="@drawable/app_background"
-    android:paddingTop="20sp"
     android:paddingLeft="20sp"
+    android:paddingTop="20sp"
     android:paddingRight="20sp"
-    >
+    tools:context=".SearchFragment">
 
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/plate"
+        android:paddingTop="20sp"
+        />
 
 
 </RelativeLayout>

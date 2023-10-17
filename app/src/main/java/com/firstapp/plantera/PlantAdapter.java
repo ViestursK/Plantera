@@ -15,8 +15,19 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder> {
+
     private final Context mContext;
     private final ArrayList<PlantItem> mPlantList;
+    private static OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+
+    }
 
     public PlantAdapter(Context context, ArrayList<PlantItem> plantList) {
         mContext = context;
@@ -58,6 +69,19 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
             super(itemView);
             mImageView = itemView.findViewById(R.id.image_view);
             mPlantName = itemView.findViewById(R.id.plant_name);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+
+            });
         }
     }
 }
