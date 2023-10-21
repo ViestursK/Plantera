@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "13519984911",
+    "project_id": "plantera-460c8",
+    "storage_bucket": "plantera-460c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13519984911:android:4266c4d5bb7f7d236e467a",
+        "android_client_info": {
+          "package_name": "com.firstapp.plantera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13519984911-m3rsbja85gfbmvtm0sukuj8us2deta9i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.firstapp.plantera",
+            "certificate_hash": "da1114bcf8d64268dc85e627626da53bfb65d0b2"
+          }
+        },
+        {
+          "client_id": "13519984911-v369rimnagb5mk1ihn9i1mppm4dup900.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAivE1g23onOOZ8jIpULxiqQxBi0_7amTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13519984911-v369rimnagb5mk1ihn9i1mppm4dup900.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
