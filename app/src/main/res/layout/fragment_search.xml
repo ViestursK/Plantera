@@ -1,22 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background"
-    android:paddingLeft="20sp"
-    android:paddingTop="20sp"
-    android:paddingRight="20sp"
     tools:context=".SearchFragment">
 
+    <!-- Settings Title -->
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40sp"
+        android:padding="16dp"
+        android:text="Search"
+        android:textColor="#C4FFC2"
+        android:textSize="24sp" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settingsTitle"
+        android:background="@android:color/transparent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80sp"
+                android:orientation="horizontal"
+                android:layout_marginRight="16sp">
+
+                <EditText
+                    android:id="@+id/search_edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="What are you looking for? :)"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/rounded_appbar_background"
+                    android:backgroundTint="@color/plate"
+                    android:padding="12sp" />
+
+                <Button
+                    android:id="@+id/search_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50sp"
+                    android:onClick="performSearch"
+                    android:text="Search"
+                    android:layout_marginStart="8sp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/rounded_appbar_background"
+                    android:padding="12sp"
+                    />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/plate"
-        android:paddingTop="20sp"
-        />
-
-
+        android:layout_below="@+id/appBarLayout"
+        android:background="@color/transparent"
+        android:layout_marginLeft="16sp"
+        android:layout_marginRight="16sp"/>
 </RelativeLayout>

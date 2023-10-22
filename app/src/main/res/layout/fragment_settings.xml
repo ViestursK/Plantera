@@ -1,15 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsFragment"
     android:background="@drawable/app_background">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Settings Title -->
     <TextView
+        android:id="@+id/settingsTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="settings" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40sp"
+        android:padding="16dp"
+        android:text="Settings"
+        android:textColor="#C4FFC2"
+        android:textSize="24sp" />
 
-</FrameLayout>
+    <!-- User Information Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userInfoCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settingsTitle"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="@color/plate"
+        app:cardCornerRadius="8dp">
+
+        <!-- "Signed in as:" Text -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20sp"
+            android:text="Signed in as:"
+            android:textColor="@color/app_blue" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <!-- User Photo -->
+            <ImageView
+                android:id="@+id/user_image_view"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="40sp"
+                android:src="@drawable/ic_google" />
+
+            <!-- User Name -->
+            <TextView
+                android:id="@+id/user_name_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30sp"
+                android:layout_toEndOf="@id/user_image_view"
+                android:text="John Doe"
+                android:textSize="18sp" />
+
+            <!-- User Email -->
+            <TextView
+                android:id="@+id/user_email_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_name_text_view"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/user_image_view"
+                android:text="john.doe@example.com"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/sign_out_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userInfoCard"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="30sp"
+        android:layout_marginRight="30sp"
+        app:cardBackgroundColor="@color/plate"
+        app:cardCornerRadius="8dp"
+        android:clickable="true">
+
+        <Button
+            android:id="@+id/sign_out_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/plate"
+            android:text="Sign Out"
+            android:textColor="@color/red" />
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

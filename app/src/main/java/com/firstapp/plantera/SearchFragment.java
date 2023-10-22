@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +25,10 @@ public class SearchFragment extends Fragment implements PlantAdapter.OnItemClick
     public static final String EXTRA_URL = "imageUrl";
     public static final String EXTRA_PLANT_NAME = "plantName";
     public static final String EXTRA_PLANT_ID = "scientificName";
+
+
+    private EditText searchEditText;
+    private Button searchButton;
 
     @Override
     public void onItemClick(int position) {
@@ -47,17 +54,76 @@ public class SearchFragment extends Fragment implements PlantAdapter.OnItemClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mPlantList = new ArrayList<>();
         mRequestQueue = Volley.newRequestQueue(requireActivity());
         parseJSON();
+
+        // Add these lines to handle search input
+        searchEditText = view.findViewById(R.id.search_edit_text);
+        searchButton = view.findViewById(R.id.search_button);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query = searchEditText.getText().toString().trim();
+                if (!query.isEmpty()) {
+                    performSearch(query);
+                }
+            }
+        });
+
         return view;
     }
 
+    private void performSearch(String query) {
+        // Clear the existing plant list
+        mPlantList.clear();
+
+        // Construct the URL for searching
+        String url = "https://perenual.com/api/species-list?key=sk-d7Ry6534cbcf6da2b2641&q=" + query;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            try {
+                if (response.has("data")) {
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject plant = jsonArray.getJSONObject(i);
+
+                        // Check if "default_image" exists and is not null
+                        if (plant.has("default_image") && !plant.isNull("default_image")) {
+                            JSONObject defaultImage = plant.getJSONObject("default_image");
+
+                            // Check if "original_url" exists and is not null
+                            if (defaultImage.has("original_url") && !defaultImage.isNull("original_url")) {
+                                String imageUrl = defaultImage.getString("original_url");
+                                String plantName = plant.optString("common_name", ""); // Use optString to handle null values
+
+                                mPlantList.add(new PlantItem(imageUrl, plantName, plant.getInt("id")));
+                            }
+                        }
+                    }
+
+                    // Notify the adapter of the data change
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    // Handle cases where "data" field is missing in the JSON response
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                // Handle JSON parsing errors
+            }
+        }, Throwable::printStackTrace);
+
+        mRequestQueue.add(request);
+    }
+
+
     private void parseJSON() {
-        String url = "https://perenual.com/api/species-list?key=sk-wq5s65181f3ed666f2313&page=3";
+        String url = "https://perenual.com/api/species-list?key=sk-d7Ry6534cbcf6da2b2641&page=3";
         // Handle network request errors
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {

@@ -23,4 +23,3 @@ public class PlantItem {
         return mPlantId;
     }
 }
-

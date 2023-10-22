@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -33,17 +34,29 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.appcompat:appcompat:1.4.0")
+    //noinspection GradleCompatible
+    implementation ("androidx.appcompat:appcompat:1.6.1")
     implementation ("com.google.android.material:material:1.10.0")
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.0")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation ("androidx.core:core-ktx:1.12.0")
+
+    implementation ("com.google.firebase:firebase-auth:22.2.0")
+
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation("com.google.firebase:firebase-analytics")
+
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation ("com.android.volley:volley:1.2.1")
     implementation ("com.squareup.picasso:picasso:2.71828")
-    implementation ("androidx.recyclerview:recyclerview:1.3.1")
-    implementation ("androidx.cardview:cardview:1.0.0")
-
+    implementation ("androidx.recyclerview:recyclerview:1.3.2")
+    implementation ("com.facebook.shimmer:shimmer:0.5.0@aar")
 }
