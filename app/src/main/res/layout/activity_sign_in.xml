@@ -7,7 +7,6 @@
     tools:context=".SignInActivity"
     android:background="@drawable/app_background">
 
-    <!-- Centered App Logo and App Name -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

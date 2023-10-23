@@ -47,8 +47,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
 
-    // TODO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
 
     testImplementation ("junit:junit:4.13.2")
